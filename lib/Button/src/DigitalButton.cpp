@@ -15,11 +15,11 @@ DigitalButton::DigitalButton(
 }
 
 void DigitalButton::loop(const unsigned long &micro) {
-    if (digitalRead(this->getPin())) {
-        this->_press(micro);
+    if (digitalRead(getPin())) {
+        _press(micro);
     } else {
-        this->_release(micro);
+        _release(micro);
     }
 
-    this->_handleEvents();
+    _handleEvents();
 }

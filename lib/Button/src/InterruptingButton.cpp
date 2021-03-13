@@ -11,27 +11,27 @@ InterruptingButton::InterruptingButton(
         void (*userFunc)(),
         unsigned long int bounce
 ) : AbstractButton(pin, bounce) {
-    attachInterrupt(digitalPinToInterrupt(this->_pin), userFunc, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(_pin), userFunc, CHANGE);
 }
 
 InterruptingButton::~InterruptingButton() {
-    detachInterrupt(digitalPinToInterrupt(this->_pin));
+    detachInterrupt(digitalPinToInterrupt(_pin));
 };
 
 void InterruptingButton::interruptHandle() {
-    if (digitalRead(this->getPin())) {
-        this->state = true;
+    if (digitalRead(getPin())) {
+        state = true;
     } else {
-        this->state = false;
+        state = false;
     }
 }
 
 void InterruptingButton::loop(const unsigned long int &micro) {
-    if (this->state) {
-        this->_press(micro);
+    if (state) {
+        _press(micro);
     } else {
-        this->_release(micro);
+        _release(micro);
     }
 
-    this->_handleEvents();
+    _handleEvents();
 }

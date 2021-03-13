@@ -12,53 +12,53 @@ AbstractButton::AbstractButton(
 ) : _pin(pin), _bounce(bounce) {}
 
 uint8_t AbstractButton::getPin() const {
-    return this->_pin;
+    return _pin;
 }
 
 bool AbstractButton::isHigh() const {
-    return this->_high;
+    return _high;
 }
 
 void AbstractButton::setOnPressed(void (*func)()) {
-    this->_onPressed = func;
+    _onPressed = func;
 }
 
 void AbstractButton::setOnReleased(void (*func)()) {
-    this->_onReleased = func;
+    _onReleased = func;
 }
 
 void AbstractButton::_press(const unsigned long int &micro) {
-    if (!this->isHigh()) {
-        if (micro - this->_lastPress >= this->_bounce) {
-            this->_pressed = true;
-            this->_released = false;
-            this->_lastRelease = 0;
-            this->_lastPress = micro;
-            this->_high = true;
+    if (!isHigh()) {
+        if (micro - _lastPress >= _bounce) {
+            _pressed = true;
+            _released = false;
+            _lastRelease = 0;
+            _lastPress = micro;
+            _high = true;
         }
     }
 }
 
 void AbstractButton::_release(const unsigned long int &micro) {
-    if (this->isHigh()) {
-        if (micro - this->_lastRelease >= this->_bounce) {
-            this->_pressed = false;
-            this->_released = true;
-            this->_lastRelease = micro;
-            this->_lastPress = micro;
-            this->_high = false;
+    if (isHigh()) {
+        if (micro - _lastRelease >= _bounce) {
+            _pressed = false;
+            _released = true;
+            _lastRelease = micro;
+            _lastPress = micro;
+            _high = false;
         }
     }
 }
 
 void AbstractButton::_handleEvents() {
-    if (this->_pressed) {
-        this->_pressed = false;
-        this->_onPressed();
+    if (_pressed) {
+        _pressed = false;
+        _onPressed();
     }
 
-    if (this->_released) {
-        this->_released = false;
-        this->_onReleased();
+    if (_released) {
+        _released = false;
+        _onReleased();
     }
 }

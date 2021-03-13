@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <avr/pgmspace.h>
 #include "../lib/Button/src/DigitalButton.h"
+#include "../lib/Button/src/InterruptingButton.h"
 
 const uint16_t NOTES[52] PROGMEM = {
         0,   //Rest 0
@@ -103,81 +104,81 @@ template<uint16_t MAX_NOTES_IN_TRACK, uint8_t NUM_OF_NOTES>
 class MusicPlayer {
 public:
     explicit MusicPlayer(uint8_t pin) : _pin(pin) {
-        pinMode(this->_pin, OUTPUT);
+        pinMode(_pin, OUTPUT);
     }
 
     void setNotes(const uint16_t (*notes)[NUM_OF_NOTES]) {
-        this->_notes = notes;
+        _notes = notes;
     }
 
     void setTrack(const uint8_t (*track)[MAX_NOTES_IN_TRACK][2]) {
-        this->_track = track;
+        _track = track;
     }
 
     bool isPlaying() {
-        return this->_playing;
+        return _playing;
     }
 
     uint8_t getBPM() {
-        return this->_trackBPM;
+        return _trackBPM;
     }
 
     void setBPM(uint8_t bpm) {
-        this->_trackBPM = bpm;
-        this->resetInterval();
+        _trackBPM = bpm;
+        resetInterval();
     }
 
     unsigned int getTrackNotes() {
-        return this->_trackNotes;
+        return _trackNotes;
     }
 
     void setTrackNotes(unsigned int notes) {
-        this->_trackNotes = notes;
+        _trackNotes = notes;
     }
 
     void setupTrack(uint8_t bpm, unsigned int notes) {
-        this->setBPM(bpm);
-        this->setTrackNotes(notes);
+        setBPM(bpm);
+        setTrackNotes(notes);
     }
 
     void resetInterval() {
-        this->_interval = 312500 / this->getBPM();
+        _interval = 312500 / getBPM();
     }
 
     void loop(unsigned long int &micro) {
-        if (this->isPlaying()) {
-            if (micro - this->_micro >= this->_interval) {
-                if (this->_tick == 0) {
-                    this->playNote();
+        if (isPlaying()) {
+            if (micro - _micro >= _interval) {
+                if (_tick == 0) {
+                    playNote();
                 }
-                this->_tick++;
-                if (this->_tick >= this->nextNote(1) * 4) {
-                    this->killNote();
-                    this->_tick = 0;
-                    this->_note++;
-                    if (this->_note >= this->getTrackNotes()) {
-                        this->reset();
+                _tick++;
+                if (_tick >= nextNote(1) * 4) {
+                    killNote();
+                    _tick = 0;
+                    _note++;
+                    if (_note >= getTrackNotes()) {
+                        reset();
                     }
                 }
-                this->_micro = micro;
+                _micro = micro;
             }
         }
     }
 
     void play() {
-        this->_playing = true;
+        _playing = true;
     }
 
     void pause() {
-        this->killNote();
-        this->_playing = false;
+        killNote();
+        _playing = false;
     }
 
     void reset() {
-        this->resetInterval();
-        this->_micro = 0;
-        this->_note = 0;
-        this->_tick = 0;
+        resetInterval();
+        _micro = 0;
+        _note = 0;
+        _tick = 0;
     }
 
 private:
@@ -193,21 +194,21 @@ private:
     unsigned int _trackNotes = 0;
 
     uint8_t getNoteProp(unsigned int note, uint8_t prop = 0) {
-        return pgm_read_byte(&this->_track[0][note][prop]);
+        return pgm_read_byte(&_track[0][note][prop]);
     }
 
     uint8_t nextNote(uint8_t prop = 0) {
-        return this->getNoteProp(this->_note, prop);
+        return getNoteProp(_note, prop);
     }
 
     void killNote() {
-        noTone(this->_pin);
+        noTone(_pin);
     }
 
     void playNote() {
-        unsigned int n = (uint16_t)pgm_read_ptr(&this->_notes[0][this->nextNote()]);
+        unsigned int n = (uint16_t)pgm_read_ptr(&_notes[0][nextNote()]);
         if (n) {
-            tone(this->_pin, n);
+            tone(_pin, n);
         } else {
             killNote();
         }
@@ -217,7 +218,7 @@ private:
 MusicPlayer<256, 52> *mp;
 
 DigitalButton *btnA;
-DigitalButton *btnB;
+InterruptingButton *btnB;
 
 bool toggleBPM = false;
 
@@ -236,7 +237,7 @@ void setup() {
         else mp->play();
     });
 
-    btnB = new DigitalButton(13);
+    btnB = new InterruptingButton(2, []{btnB->interruptHandle();});
     btnB->setOnPressed([] {
         toggleBPM ^= 1;
         if (toggleBPM) mp->setBPM(73);
