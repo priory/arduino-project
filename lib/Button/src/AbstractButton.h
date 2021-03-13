@@ -5,6 +5,8 @@ class AbstractButton {
 public:
     explicit AbstractButton(uint8_t pin, unsigned long int bounce = 200000);
 
+    uint8_t getPin() const;
+
     bool isHigh() const;
 
     virtual void loop(const unsigned long int &micro) = 0;

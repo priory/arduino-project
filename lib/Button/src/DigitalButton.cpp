@@ -15,7 +15,7 @@ DigitalButton::DigitalButton(
 }
 
 void DigitalButton::loop(const unsigned long &micro) {
-    if (digitalRead(this->_pin)) {
+    if (digitalRead(this->getPin())) {
         this->_press(micro);
     } else {
         this->_release(micro);

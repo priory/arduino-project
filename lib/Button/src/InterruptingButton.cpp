@@ -19,15 +19,15 @@ InterruptingButton::~InterruptingButton() {
 };
 
 void InterruptingButton::interruptHandle() {
-    if (digitalRead(this->_pin)) {
-        this->_interrupted = true;
+    if (digitalRead(this->getPin())) {
+        this->state = true;
     } else {
-        this->_interrupted = false;
+        this->state = false;
     }
 }
 
 void InterruptingButton::loop(const unsigned long int &micro) {
-    if (this->_interrupted) {
+    if (this->state) {
         this->_press(micro);
     } else {
         this->_release(micro);

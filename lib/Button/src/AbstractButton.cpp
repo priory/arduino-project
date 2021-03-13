@@ -11,6 +11,10 @@ AbstractButton::AbstractButton(
         unsigned long bounce
 ) : _pin(pin), _bounce(bounce) {}
 
+uint8_t AbstractButton::getPin() const {
+    return this->_pin;
+}
+
 bool AbstractButton::isHigh() const {
     return this->_high;
 }

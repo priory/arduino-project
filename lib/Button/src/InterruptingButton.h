@@ -11,6 +11,8 @@
 
 class InterruptingButton : public AbstractButton {
 public:
+    volatile bool state = false;
+
     explicit InterruptingButton(
             uint8_t pin,
             void (*userFunc)(),
@@ -22,9 +24,6 @@ public:
     void interruptHandle();
 
     void loop(const unsigned long int &micro) override;
-
-private:
-    volatile bool _interrupted = false;
 };
 
 #endif //INTERRUPTINGBUTTON_H
