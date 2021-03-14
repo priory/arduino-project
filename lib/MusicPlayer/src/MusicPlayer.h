@@ -70,7 +70,7 @@ MusicPlayer<S, N>::MusicPlayer(uint8_t pin) : _pin(pin) {
 
 template<uint16_t S, uint8_t N>
 uint16_t MusicPlayer<S, N>::readFrequency(uint8_t note) {
-    return pgm_read_ptr(&_notes[0][note]);
+    return pgm_read_word(&_notes[0][note]);
 }
 
 
