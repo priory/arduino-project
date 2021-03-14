@@ -1,10 +1,5 @@
 #include <Arduino.h>
-
-#ifndef INTERRUPTINGBUTTON_H
-
 #include "InterruptingButton.h"
-
-#endif
 
 InterruptingButton::InterruptingButton(
         uint8_t pin,

@@ -1,10 +1,5 @@
 #include <Arduino.h>
-
-#ifndef ABSTRACTBUTTON_H
-
 #include "AbstractButton.h"
-
-#endif
 
 AbstractButton::AbstractButton(
         uint8_t pin,

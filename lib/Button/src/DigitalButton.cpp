@@ -1,10 +1,5 @@
 #include <Arduino.h>
-
-#ifndef DIGITALBUTTON_H
-
 #include "DigitalButton.h"
-
-#endif
 
 DigitalButton::DigitalButton(
         uint8_t pin,

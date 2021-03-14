@@ -1,13 +1,8 @@
 #ifndef INTERRUPTINGBUTTON_H
 #define INTERRUPTINGBUTTON_H
 
-#ifndef ABSTRACTBUTTON_H
-
-#include "AbstractButton.h"
-
-#endif
-
 #include "Arduino.h"
+#include "AbstractButton.h"
 
 class InterruptingButton : public AbstractButton {
 public:

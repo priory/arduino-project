@@ -1,11 +1,7 @@
 #ifndef DIGITALBUTTON_H
 #define DIGITALBUTTON_H
 
-#ifndef ABSTRACTBUTTON_H
-
 #include "AbstractButton.h"
-
-#endif
 
 class DigitalButton : public AbstractButton {
 public:
