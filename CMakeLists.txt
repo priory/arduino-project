@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} lib/Button/src/InterruptingButton.h lib/Button/src/InterruptingButton.cpp lib/Button/src/DigitalButton.cpp lib/Button/src/DigitalButton.h lib/Button/src/AbstractButton.h lib/Button/src/AbstractButton.cpp)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST})
