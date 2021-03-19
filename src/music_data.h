@@ -46,7 +46,7 @@ const uint8_t ALL_TRACKS[NUM_OF_TRACKS][256][2] PROGMEM = {
 };
 
 // {bpm, notes}
-const uint8_t SONG_PROPS[NUM_OF_TRACKS][2] PROGMEM = {
+const uint8_t ALL_TRACK_PROPS[NUM_OF_TRACKS][2] PROGMEM = {
         {146, 108},
         {200, 64},
         {190, 102},
