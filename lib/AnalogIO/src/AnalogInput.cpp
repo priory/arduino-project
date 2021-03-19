@@ -20,7 +20,7 @@ void AnalogInput::setOnChange(void (*onChange)()) {
     _onChange = onChange;
 }
 
-void AnalogInput::loop(unsigned long int micro) {
+void AnalogInput::loop(unsigned long int &micro) {
     unsigned int read = analogRead(_pin);
 
     if (micro - _counter >= _poll) {
