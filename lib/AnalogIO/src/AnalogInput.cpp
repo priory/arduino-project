@@ -20,6 +20,10 @@ void AnalogInput::setOnChange(void (*onChange)()) {
     _onChange = onChange;
 }
 
+void AnalogInput::triggerOnChange() {
+    _onChange();
+}
+
 void AnalogInput::loop(unsigned long int &micro) {
     unsigned int read = analogRead(_pin);
 
@@ -30,7 +34,7 @@ void AnalogInput::loop(unsigned long int &micro) {
             if (_setOffs >= _stability) {
                 _previous = read;
                 _setOffs = 0;
-                _onChange();
+                triggerOnChange();
             };
         } else {
             _setOffs = 0;

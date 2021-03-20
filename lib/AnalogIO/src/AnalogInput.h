@@ -16,6 +16,8 @@ public:
 
     void setOnChange(void (*onChange)());
 
+    void triggerOnChange();
+
     void loop(unsigned long int &micro);
 
     unsigned int read() const;
