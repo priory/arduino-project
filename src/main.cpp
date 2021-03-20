@@ -24,7 +24,7 @@ bool musicEnabled = true;
 void setTrack(uint8_t t) {
     musicPlayer->setTrack(&TRACKS[track]);
     musicPlayer->setupTrack(
-            ((uint8_t) pgm_read_byte(&TRACK_PROPS[track][0])),
+            ((uint8_t) pgm_read_byte(&TRACK_PROPS[track][0])) * (pot->value() * 0.75 + 0.25),
             (uint16_t) pgm_read_byte(&TRACK_PROPS[track][1])
     );
     musicPlayer->reset();
