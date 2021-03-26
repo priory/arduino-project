@@ -7,40 +7,133 @@
 template<uint16_t S, uint8_t N>
 class MusicPlayer {
 public:
+    /**
+     * Constructor.
+     *
+     * @param pin: pin used to play music
+     */
     explicit MusicPlayer(uint8_t pin);
 
-    void setOnEnd(void (*onEnd)()) {
-        _onEnd = onEnd;
-    }
+    /**
+     * Function to execute when the track has ended.
+     *
+     * @param onEnd: Pointer to the function
+     */
+    void setOnEnd(void (*onEnd)());
 
+    /**
+     * Reads the frequency of the note from PROGMEM.
+     *
+     * @param note: Note index
+     * @return frequency
+     */
     uint16_t readFrequency(uint8_t note);
 
+    /**
+     * Reads the note's property of the track from PROGMEM.
+     *
+     * @param note: Track note index
+     * @param prop: 0 = note index, 1 = duration in ticks
+     * @return
+     */
     uint8_t readNote(unsigned int note, uint8_t prop = 0);
 
+    /**
+     * Sets the notes array pointer. Must be PROGMEM.
+     *
+     * @param notes: Pointer to array PROGMEM
+     */
     void setNotes(const uint16_t (*notes)[N]);
 
+    /**
+     * Sets the track array pointer. Must be PROGMEM.
+     *
+     * Each note must be { NOTE_INDEX, DURATION }
+     * NOTE_INDEX is the index of _notes array pointer.
+     * DURATION is the dudration in ticks. 1/4th note is 48 ticks.
+     *
+     * @param track: Pointer to array PROGMEM
+     */
     void setTrack(const uint8_t (*track)[S][2]);
 
+    /**
+     * Returns whether the track is playing or not.
+     *
+     * @return
+     */
     bool isPlaying();
 
+    /**
+     * Gets the Beats per Minute.
+     *
+     * @return
+     */
     uint8_t getBPM();
 
+    /**
+     * Sets the Beats per Minute.
+     *
+     * @param bpm
+     */
     void setBPM(uint8_t bpm);
 
+    /**
+     * Gets the number of notes a track has.
+     *
+     * @return
+     */
     unsigned int getTrackNotes();
 
+    /**
+     * Sets the number of notes a track has.
+     *
+     * @param notes
+     */
     void setTrackNotes(unsigned int notes);
 
+    /**
+     * Sets the Beats per Minute and number of notes a track has.
+     *
+     * Same as setBPM and setTrackNotes combined.
+     *
+     * @param bpm
+     * @param notes
+     */
     void setupTrack(uint8_t bpm, unsigned int notes);
 
+    /**
+     * Resets the interval for ticks.
+     *
+     * Ticks are used to define the duration of notes.
+     * 1/4th note is 48 ticks. A tick has an interval in microseconds.
+     * This method calculates the interval based on BPM.
+     *
+     * Formula:
+     * MICRO_SECONDS_IN_MINUTE / TICKS_PER_4_QUARTER_NOTES / BEATS_PER_MINUTE
+     * = 60,000,000 / 192 / BPM = 312,500 / BPM
+     */
     void resetInterval();
 
+    /**
+     * Loop function that is used to run the music player.
+     *
+     * @param micro:
+     */
     void loop(unsigned long int &micro);
 
+    /**
+     * Plays the music player.
+     */
     void play();
 
+    /**
+     * Pauses the music player.
+     */
     void pause();
 
+    /**
+     * Resets the music player to first note.
+     */
     void reset();
 
 private:
@@ -66,6 +159,11 @@ private:
 template<uint16_t S, uint8_t N>
 MusicPlayer<S, N>::MusicPlayer(uint8_t pin) : _pin(pin) {
     pinMode(_pin, OUTPUT);
+}
+
+template<uint16_t S, uint8_t N>
+void MusicPlayer<S, N>::setOnEnd(void (*onEnd)()) {
+    _onEnd = onEnd;
 }
 
 template<uint16_t S, uint8_t N>

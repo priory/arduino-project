@@ -5,6 +5,16 @@
 
 class AnalogInput {
 public:
+    /**
+     * Constructor.
+     *
+     * @param pin: pin used for the analog input
+     * @param min: minimum value of the input
+     * @param max: maximum value of the input.
+     * @param threshold: limit to when input change can trigger onChange
+     * @param stability: how many consecutive times threshold must be exceeded
+     * @param poll: polling time interval
+     */
     explicit AnalogInput(
             uint8_t pin,
             unsigned int min = 26,
@@ -14,14 +24,37 @@ public:
             unsigned long int poll = 1000
     );
 
+    /**
+     * Sets on input change event handler function.
+     *
+     * @param onChange
+     */
     void setOnChange(void (*onChange)());
 
+    /**
+     * Invokes on input change event.
+     */
     void triggerOnChange();
 
+    /**
+     * The loop function used to check for analog input.
+     *
+     * @param micro
+     */
     void loop(unsigned long int &micro);
 
+    /**
+     * Reads the literal value from the analog sensor.
+     *
+     * @return
+     */
     unsigned int read() const;
 
+    /**
+     * Reads the decimal value between 0 and 1.
+     *
+     * @return
+     */
     float value() const;
 
 private:

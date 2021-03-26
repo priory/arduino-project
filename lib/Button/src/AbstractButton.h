@@ -3,16 +3,49 @@
 
 class AbstractButton {
 public:
+    /**
+     * Constructor.
+     *
+     * Bouncing is needed to ignore unexpected current.
+     *
+     * @param pin: pin used to read button
+     * @param bounce: interval between presses
+     */
     explicit AbstractButton(uint8_t pin, unsigned long int bounce = 200000);
 
+    /**
+     * Gets the pin used for the button.
+     *
+     * @return
+     */
     uint8_t getPin() const;
 
+    /**
+     * Checks if the button is pressed.
+     *
+     * @return
+     */
     bool isHigh() const;
 
+    /**
+     * Loop function used to check when an event should be invoked.
+     *
+     * @param micro
+     */
     virtual void loop(const unsigned long int &micro) = 0;
 
+    /**
+     * Sets on pressed event handler function.
+     *
+     * @param func
+     */
     void setOnPressed(void (*func)());
 
+    /**
+     * Sets on released event handler function.
+     *
+     * @param func
+     */
     void setOnReleased(void (*func)());
 
 protected:
