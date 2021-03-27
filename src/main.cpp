@@ -151,7 +151,7 @@ void setup() {
     ldr->setOnChange(ldrChangeHandler);
 
     // Setup potentiometer
-    pot = new AnalogInput(A0, 89, 1018, 5, 5, 1000);
+    pot = new AnalogInput(A0, 89, 1018, 5, 5, 10000);
     pot->setOnChange(potChangedHandler);
 
     // Setup music player
@@ -179,12 +179,21 @@ void setup() {
 /**
  * Loop.
  */
+
+unsigned long int counter = 0;
+unsigned long int interval = 10000;
+
 void loop() {
     unsigned long int micro = micros();
 
-    ldr->loop(micro);
-    pot->loop(micro);
-    playButton->loop(micro);
-    nextButton->loop(micro);
+    if (micro - counter >= interval) {
+        ldr->loop(micro);
+        pot->loop(micro);
+        playButton->loop(micro);
+        nextButton->loop(micro);
+
+        counter = micro;
+    }
+
     musicPlayer->loop(micro);
 }
