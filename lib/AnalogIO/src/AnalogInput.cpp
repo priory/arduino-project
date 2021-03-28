@@ -6,13 +6,13 @@ AnalogInput::AnalogInput(
         unsigned int max,
         uint8_t threshold,
         uint8_t stability,
-        unsigned long int poll
+        unsigned long int pollingRate
 ) : _pin(pin),
     _min(min),
     _max(max),
     _threshold(threshold),
     _stability(stability),
-    _poll(poll) {
+    _pollingRate(pollingRate) {
     _previous = analogRead(_pin);
 }
 
@@ -27,7 +27,7 @@ void AnalogInput::triggerOnChange() {
 void AnalogInput::loop(unsigned long int &micro) {
     unsigned int read = analogRead(_pin);
 
-    if (micro - _counter >= _poll) {
+    if (micro - _counter >= _pollingRate) {
         if ((read > (_previous + _threshold)) || ((signed int) read < ((signed int) _previous - _threshold))) {
             _setOffs++;
 

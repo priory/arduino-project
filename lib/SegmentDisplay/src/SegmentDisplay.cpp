@@ -16,7 +16,7 @@ void SegmentDisplay::render(const uint8_t symbol) {
 
 void SegmentDisplay::renderBits(const uint8_t v) {
     for (uint8_t i = 0; i < NUM_OF_SEGMENTS; i++) {
-        segment(i, (v & (1 << i)) != 0);
+        segment(i, v >> i & 1);
     }
 }
 

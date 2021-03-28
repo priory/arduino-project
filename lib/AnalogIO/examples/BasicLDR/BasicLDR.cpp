@@ -21,7 +21,7 @@ void loop() {
     unsigned long int micro = micros();
 
     if (micro - counter >= interval) {
-        ldr->loop();
+        ldr->loop(micro);
 
         counter = micro;
     }

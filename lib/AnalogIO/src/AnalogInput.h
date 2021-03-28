@@ -13,7 +13,7 @@ public:
      * @param max: maximum value of the input.
      * @param threshold: limit to when input change can trigger onChange
      * @param stability: how many consecutive times threshold must be exceeded
-     * @param poll: polling time interval
+     * @param pollingRate: polling time interval
      */
     explicit AnalogInput(
             uint8_t pin,
@@ -21,7 +21,7 @@ public:
             unsigned int max = 1022,
             uint8_t threshold = 5,
             uint8_t stability = 1,
-            unsigned long int poll = 1000
+            unsigned long int pollingRate = 1000
     );
 
     /**
@@ -63,7 +63,7 @@ private:
     const unsigned int _max;
     const uint8_t _threshold;
     const uint8_t _stability;
-    const unsigned long int _poll;
+    const unsigned long int _pollingRate;
     unsigned long int _counter = 0;
     uint8_t _setOffs = 0;
     unsigned int _previous;
